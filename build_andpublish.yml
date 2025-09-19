@@ -5,13 +5,22 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: demo  # This brings in variables from your Azure DevOps Library variable group
+- group: demo # <- this dash is required for variable groups
 
-  dockerHubUsername: 'alhjunaid'
-  imageName: 'expense-tracker'
-  fullImageName: '$(dockerHubUsername)/$(imageName)'
-  dockerfilePath: 'Dockerfile'
-  imageTag: 'latest'
+- name: dockerHubUsername
+  value: 'alhjunaid'
+
+- name: imageName
+  value: 'expense-tracker'
+
+- name: fullImageName
+  value: '$(dockerHubUsername)/$(imageName)'
+
+- name: dockerfilePath
+  value: 'Dockerfile'
+
+- name: imageTag
+  value: 'latest'
 
 steps:
 - task: Docker@2
