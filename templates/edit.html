@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <form action="" method="post">
+    <input type="text" name="description" value="{{ expense.description }}" required>
+    <input type="number" step="0.01" name="amount" value="{{ expense.amount }}" required>
+    <input type="date" name="date" value="{{ expense.date.strftime('%Y-%m-%d') }}" required>
+    <input type="text" name="category" value="{{ expense.category }}" required>
+    <button type="submit">Save</button>
+    <a href="/">Cancel</a>
+  </form>
+{% endblock %}

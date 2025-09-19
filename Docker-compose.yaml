@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - FLASK_SECRET=please-change-me
+    volumes:
+      - .:/app
+    networks:
+      - expense_net   # attach to custom network
+
+  mongo:
+    image: mongo:6
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - expense_net   # attach to same custom network
+
+volumes:
+  mongo_data:
+
+networks:
+  expense_net:        # define custom network
+    driver: bridge
