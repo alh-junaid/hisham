@@ -1,0 +1,33 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: demo  # This brings in variables from your Azure DevOps Library variable group
+
+  dockerHubUsername: 'alhjunaid'
+  imageName: 'expense-tracker'
+  fullImageName: '$(dockerHubUsername)/$(imageName)'
+  dockerfilePath: 'Dockerfile'
+  imageTag: 'latest'
+
+steps:
+- task: Docker@2
+  displayName: Build Docker image
+  inputs:
+    command: build
+    repository: $(fullImageName)
+    Dockerfile: $(dockerfilePath)
+    tags: |
+      $(imageTag)
+
+- task: Docker@2
+  displayName: Push Docker image to Docker Hub
+  inputs:
+    command: push
+    repository: $(fullImageName)
+    tags: |
+      $(imageTag)
+    containerRegistry: $(dockerHubServiceConnection)
